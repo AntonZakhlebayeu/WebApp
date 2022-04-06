@@ -8,5 +8,7 @@ The table in the left column contains checkboxes for multiple selection, in the 
 
 Demonstration of work:
 
-https://user-images.githubusercontent.com/91548851/162069118-b0be02f1-bc21-4584-97b4-bdbe59d8ffac.mov
+https://user-images.githubusercontent.com/91548851/162075357-fcab530c-9f2e-4bd4-b627-23b5ad718543.mov
+
+
 
