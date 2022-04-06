@@ -12,12 +12,14 @@
    
     <div class="container">
         <div style="display: flex;">
-            <button type="button" onclick="deleteCheckedContacts()" class="btn btn-danger" style="left: 0;">Delete</button>
-            <button type="button" onclick="logout()" class="btn btn-primary" style="position: absolute; right:  18%;;">Logout</button>
+            <button type="button" onclick="logout()" class="btn btn-outline-primary">Logout</button>
         </div>
         <div style="display:flex;justify-content:center;align-items:center;">
-            <button type="button" onclick="blockCheckedContacts()" class="btn btn-dark">Block</button>
-            <button type="button" onclick="unblockCheckedContacts()" class="btn btn-dark">Unblock</button>
+            <button type="button" onclick="deleteCheckedContacts()" class="btn btn-danger btn-lg btn-block">Delete</button>
+            <button type="button" onclick="blockCheckedContacts()" class="btn btn-dark btn-lg btn-block">Block</button>
+            <button type="button" onclick="unblockCheckedContacts()" class="btn btn-dark btn-lg btn-block">Unblock</button>
+        </div>
+        <div style="display:flex;justify-content:center;align-items:center;margin-top: 100px">
             <button id="btn-on" class="btn btn-dark">Select all</button>
             <button id="btn-off" class="btn btn-dark">Unselect</button>
         </div>
