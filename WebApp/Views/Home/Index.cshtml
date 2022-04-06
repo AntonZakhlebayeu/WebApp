@@ -2,17 +2,66 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to WebApp!</h1>
-    <h3><b>Register or Login to access the users table.</b></h3>
-</div>                                                          
+@model IEnumerable<WebApp.Models.User>
 
-<div class="form-buttons">
-    <button type="button" class="btn btn-primary btn-lg">
-        <h4><b><a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a></b></h4>
-    </button>
-    
-    <button type="button" class="btn btn-warning btn-lg">
-        <h4><b><a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a></b></h4>
-    </button>
-</div>  
+<script src="~/js/AdminOptions.js"></script>
+
+
+
+<div class="container block2">
+   
+    <div class="container">
+        <div style="display: flex;">
+            <button type="button" onclick="deleteCheckedContacts()" class="btn btn-danger" style="left: 0;">Delete</button>
+            <button type="button" onclick="logout()" class="btn btn-primary" style="position: absolute; right:  18%;;">Logout</button>
+        </div>
+        <div style="display:flex;justify-content:center;align-items:center;">
+            <button type="button" onclick="blockCheckedContacts()" class="btn btn-dark">Block</button>
+            <button type="button" onclick="unblockCheckedContacts()" class="btn btn-dark">Unblock</button>
+            <button id="btn-on" class="btn btn-dark">Select all</button>
+            <button id="btn-off" class="btn btn-dark">Unselect</button>
+        </div>
+        <table class="table table-hover table-responsive">
+            <thead>
+            <tr>
+            </tr>
+            <tr>
+                <th>User Id</th>
+                <th class="col-md-3 col-xs-3">First Name</th>
+                <th class="col-md-3 col-xs-3">Last Name</th>
+                <th class="col-md-3 col-xs-3">E-mail</th>
+                <th class="col-md-3 col-xs-3">Registration</th>
+                <th class="col-md-3 col-xs-3">Last login</th>
+                <th class="col-md-3 col-xs-3">Status</th>
+                <th class="custom-checkbox">Choose</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            @foreach (WebApp.Models.User user in Model)
+            {
+                <tr>
+                    <th scope="row">@user.Id</th>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.Email</td>
+                    <td>@user.RegisterDate.ToString("d")</td>
+                    <td>@user.LastLoginDate.ToString("d")</td>
+                    <td>@user.Status</td>
+                    <td><input class="user-checkbox" type="checkbox" name="@user.Id"></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+<script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+<script>$('#btn-on').click(function () {
+        $('body input:checkbox').prop('checked', true);
+    });
+    $('#btn-off').click(function () {
+        $('body input:checkbox').prop('checked', false);
+    });</script>

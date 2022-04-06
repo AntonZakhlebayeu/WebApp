@@ -15,11 +15,17 @@ namespace WebApp.Controllers
 {
     public class AccountController : Controller
     {
-        private ApplicationDbContext db;
+        private readonly ApplicationDbContext _db;
 
         public AccountController(ApplicationDbContext context)
         {
-            db = context;
+            _db = context;
+        }
+        
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
         }
 
         [HttpGet]
@@ -32,20 +38,14 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             
-            User user = db.Users.FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
-            if (user != null && user.Status == "ok")
-            {
+            var user = _db.Users.FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
+            if (user == null || user.Status != "Active User") return View(model);
+            user.LastLoginDate = DateTime.Now;
+            await _db.SaveChangesAsync();
 
-                user.LastLoginDate = DateTime.Now;
-                db.SaveChanges();
+            await Authenticate(model.Email);
 
-                await Authenticate(model.Email);
-
-                return RedirectToAction("Index", "Home");
-            }
-                
-            return View(model);
-
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -57,35 +57,27 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            if (model.Password != model.ConfirmPassword) return View(model);
+            var user = _db.Users.FirstOrDefault(u => u.Email == model.Email);
 
-            if (model.Password == model.ConfirmPassword)
+            if (user != null) return View(model);
+            var newUser = new User()
             {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                Password = model.Password,
+                RegisterDate = DateTime.Now,
+                LastLoginDate = DateTime.Now,
+                Status = "Active User"
+            };
+            _db.Users.Add(newUser);
+            await _db.SaveChangesAsync();
 
-                User user = db.Users.FirstOrDefault(u => u.Email == model.Email);
+            await Authenticate(model.Email); 
 
-                if (user == null)
-                {
-                    User newUser = new User()
-                    {
-                        FirstName = model.Name,
-                        LastName = model.LastName,
-                        Email = model.Email,
-                        Password = model.Password,
-                        RegisterDate = DateTime.Now,
-                        LastLoginDate = DateTime.Now,
-                        Status = "ok"
-                    };
-                    db.Users.Add(newUser);
-                    Console.WriteLine("Added new user.");
-                    await db.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
 
-                    await Authenticate(model.Email); 
-
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            
-            return View(model);
         }
 
         private async Task Authenticate(string userName)
@@ -96,15 +88,15 @@ namespace WebApp.Controllers
                 new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
             };
            
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-           
+            var id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Index", "Account");
         }
     }
 }

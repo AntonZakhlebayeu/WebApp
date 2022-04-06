@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Yin8mteAHCvDkoFTwZmlO6f1ZoGq4DFNl9OXLGEuXV8=",
+  "Hash": "Z8PsG2abQpA33AZmkcbB/6c23FceinNdG2eJcQ1+0vM=",
   "Source": "WebApp",
   "BasePath": "_content/WebApp",
   "Mode": "Default",
@@ -1105,12 +1105,12 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
-      "Identity": "C:\\Users\\hanny\\RiderProjects\\WebApp\\WebApp\\wwwroot\\js\\site.js",
+      "Identity": "C:\\Users\\hanny\\RiderProjects\\WebApp\\WebApp\\wwwroot\\js\\AdminOptions.js",
       "SourceId": "WebApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\hanny\\RiderProjects\\WebApp\\WebApp\\wwwroot\\",
       "BasePath": "_content/WebApp",
-      "RelativePath": "js/site.js",
+      "RelativePath": "js/AdminOptions.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1119,7 +1119,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\site.js"
+      "OriginalItemSpec": "wwwroot\\js\\AdminOptions.js"
     },
     {
       "Identity": "C:\\Users\\hanny\\RiderProjects\\WebApp\\WebApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",

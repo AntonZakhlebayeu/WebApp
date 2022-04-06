@@ -16,22 +16,22 @@ namespace WebApp.Controllers
     public class HomeController : Controller
     {
 
-        private ApplicationDbContext db;
+        private readonly ApplicationDbContext _db;
 
         public HomeController(ApplicationDbContext context)
         {
-            db = context;
+            _db = context;
         }
 
         [Authorize]
         public IActionResult Index()
         {
 
-            if (db.Users.Any(u => u.Email == User.Identity.Name))
+            if (_db.Users.Any(u => User.Identity != null && u.Email == User.Identity.Name))
             {
 
-                if (db.Users.First(u => u.Email == User.Identity.Name).Status != "blocked")
-                    return View(db.Users);
+                if (_db.Users.First(u => User.Identity != null && u.Email == User.Identity.Name).Status != "Blocked User")
+                    return View(_db.Users);
                 else
                     return RedirectToAction("Login", "Account");
 
@@ -53,22 +53,22 @@ namespace WebApp.Controllers
 
             foreach (int id in Ids)
             {
-                var ObjectToDelete = db.Users.Find(id);
-                db.Users.Remove(ObjectToDelete);
+                var objectToDelete = _db.Users.Find(id);
+                _db.Users.Remove(objectToDelete);
             }
 
-            db.SaveChanges();
+            _db.SaveChanges();
 
             return Redirect("~/");
 
         }
 
-        public bool IsUserInvalid(string Email)
+        public bool IsUserInvalid(string? Email)
         {
 
-            User user = db.Users.First(u => u.Email == Email);
+            User user = _db.Users.First(u => u.Email == Email);
 
-            if (user.Status == "ok")
+            if (user.Status == "Active User")
                 return false;
             else
                 return true;
@@ -83,11 +83,11 @@ namespace WebApp.Controllers
 
             foreach (int id in Ids)
             {
-                var ObjectToDelete = db.Users.Find(id);
-                db.Users.Find(id).Status = "blocked";
+                var ObjectToDelete = _db.Users.Find(id);
+                _db.Users.Find(id).Status = "Blocked User";
             }
 
-            db.SaveChanges();
+            _db.SaveChanges();
 
             return Redirect("~/");
 
@@ -96,16 +96,16 @@ namespace WebApp.Controllers
         public IActionResult Unblock(int[] Ids)
         {
 
-            if (IsUserInvalid(User.Identity.Name))
+            if (IsUserInvalid(User.Identity?.Name))
                 return RedirectToAction("Login", "Account");
 
             foreach (int id in Ids)
             {
-                var ObjectToDelete = db.Users.Find(id);
-                db.Users.Find(id).Status = "ok";
+                var objectToDelete = _db.Users.Find(id);
+                _db.Users.Find(id).Status = "Active User";
             }
 
-            db.SaveChanges();
+            _db.SaveChanges();
 
             return Redirect("~/");
 
