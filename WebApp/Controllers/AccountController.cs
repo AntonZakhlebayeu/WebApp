@@ -29,7 +29,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             
             User user = db.Users.FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
