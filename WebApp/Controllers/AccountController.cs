@@ -76,6 +76,7 @@ namespace WebApp.Controllers
                         Status = "ok"
                     };
                     db.Users.Add(newUser);
+                    Console.WriteLine("Added new user.");
                     await db.SaveChangesAsync();
 
                     await Authenticate(model.Email); 
