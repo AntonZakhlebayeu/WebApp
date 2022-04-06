@@ -48,7 +48,7 @@ namespace WebApp.Controllers
         public IActionResult Delete(int[] Ids)
         {
 
-            if (IsUserInvalid(User.Identity.Name))
+            if (IsUserInvalid(User.Identity?.Name))
                 return RedirectToAction("Login", "Account");
 
             foreach (int id in Ids)
@@ -77,13 +77,13 @@ namespace WebApp.Controllers
         public IActionResult Block(int[] Ids)
         {
 
-            if (IsUserInvalid(User.Identity.Name))
+            if (IsUserInvalid(User.Identity?.Name))
                 return RedirectToAction("Login", "Account");
 
             foreach (int id in Ids)
             {
                 var ObjectToDelete = _db.Users.Find(id);
-                _db.Users.Find(id).Status = "Blocked User";
+                _db.Users.Find(id)!.Status = "Blocked User";
             }
 
             _db.SaveChanges();
@@ -101,7 +101,7 @@ namespace WebApp.Controllers
             foreach (int id in Ids)
             {
                 var objectToDelete = _db.Users.Find(id);
-                _db.Users.Find(id).Status = "Active User";
+                _db.Users.Find(id)!.Status = "Active User";
             }
 
             _db.SaveChanges();
