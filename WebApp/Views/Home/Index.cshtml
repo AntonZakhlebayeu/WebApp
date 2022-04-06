@@ -35,7 +35,12 @@
                 <th class="col-md-3 col-xs-3">Registration</th>
                 <th class="col-md-3 col-xs-3">Last login</th>
                 <th class="col-md-3 col-xs-3">Status</th>
-                <th class="custom-checkbox">Choose</th>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
+                  <label class="form-check-label" for="flexCheckIndeterminate">
+                      <b>Select all / Unselect all</b>
+                  </label>
+                </div>
             </tr>
             </thead>
             <tbody>
@@ -61,9 +66,14 @@
 
 
 <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
-<script>$('#btn-on').click(function () {
-        $('body input:checkbox').prop('checked', true);
-    });
-    $('#btn-off').click(function () {
-        $('body input:checkbox').prop('checked', false);
-    });</script>
+<script>$('#flexCheckIndeterminate').click(function(event) {   
+            if(this.checked) {
+                $(':checkbox').each(function() {
+                    this.checked = true;                        
+                });
+            } else {
+                $(':checkbox').each(function() {
+                    this.checked = false;                       
+                });
+            }
+        }); </script>
