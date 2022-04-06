@@ -33,13 +33,13 @@ namespace WebApp.Controllers
                 if (_db.Users.First(u => User.Identity != null && u.Email == User.Identity.Name).Status != "Blocked User")
                     return View(_db.Users);
                 else
-                    return RedirectToAction("Login", "Account");
+                    return RedirectToAction("Index", "Account");
 
             }
             else
             {
                 HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index", "Account");
             }
 
             
@@ -72,7 +72,6 @@ namespace WebApp.Controllers
                 return false;
             else
                 return true;
-
         }
 
         public IActionResult Block(int[] Ids)
@@ -108,7 +107,6 @@ namespace WebApp.Controllers
             _db.SaveChanges();
 
             return Redirect("~/");
-
         }
 
     }
